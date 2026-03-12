@@ -1979,7 +1979,7 @@ async function confirmPwModal() {
   if (!pw) { document.getElementById('pwModalError').textContent = 'パスワードを入力してください'; return; }
   document.getElementById('pwModalError').textContent = '確認中...';
   try {
-    const res = await gasGet({ action: 'verifyPassword', password: pw });
+    const res = await gasPost({ action: 'verifyPassword', password: pw });
     if (res.success) {
       closePwModal();
       if (_pendingDriverId) { _doSelectDriver(_pendingDriverId); _pendingDriverId = null; }
