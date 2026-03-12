@@ -251,7 +251,7 @@
   .rf-fuel-group input { flex:1; text-align:right; }
     padding: 8px; background: rgba(34,197,94,0.1); border-radius: 8px; }
   /* LOADING OVERLAY */
-  .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 400; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
   .loading-overlay.show { opacity: 1; pointer-events: all; }
   .loading-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 36px 48px; display: flex; flex-direction: column; align-items: center; gap: 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.6); }
   .loading-spinner { width: 52px; height: 52px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; }
@@ -654,7 +654,7 @@
 </div>
 
 <!-- パスワードモーダル -->
-<div class="confirm-overlay" id="pwModal">
+<div class="confirm-overlay" id="pwModal" style="z-index:600;">
   <div class="confirm-box">
     <div class="confirm-msg">🔐 パスワードを入力してください</div>
     <div class="confirm-sub" id="pwModalSub" style="color:var(--text3);margin-bottom:12px;">ドライバーを選択するには認証が必要です</div>
@@ -1776,6 +1776,7 @@ function saveRecord() {
 // RECORDS SCREEN
 // ============================================================
 async function renderRecords() {
+  try {
   const period    = getPeriod(currentPeriodOffset);
   document.getElementById('recordsPeriodLabel').textContent = period.label;
   document.getElementById('recordsDriverName').textContent  = getDriverName(currentDriverId);
@@ -1837,6 +1838,7 @@ async function renderRecords() {
       ${(rec.allowance||rec.lodging) ? `<div class="record-note">💴 手当:${rec.allowance||0}円${rec.lodging ? ' 宿泊:¥5,000' : ''}</div>` : ''}
     </div>`;
   }).join('');
+  } catch(e) { console.error('renderRecords error:', e); } finally { showLoadingOverlay(false); }
 }
 
 function changePeriod(dir) { currentPeriodOffset += dir; renderRecords(); }
@@ -1845,6 +1847,7 @@ function changePeriod(dir) { currentPeriodOffset += dir; renderRecords(); }
 // MONTHLY SCREEN
 // ============================================================
 async function renderMonthly() {
+  try {
   const period     = getPeriod(currentMonthlyOffset);
   document.getElementById('monthlyPeriodLabel').textContent = period.label;
   document.getElementById('monthlyDriverName').textContent  = getDriverName(currentDriverId);
@@ -1898,6 +1901,7 @@ async function renderMonthly() {
       <div class="detail-hrs">${minutesToH(calc.totalMins)}<span style="font-size:10px;color:var(--text2)">h</span></div>
     </div>`;
   }).join('');
+  } catch(e) { console.error('renderMonthly error:', e); } finally { showLoadingOverlay(false); }
 }
 
 function changeMonthlyPeriod(dir) { currentMonthlyOffset += dir; renderMonthly(); }
@@ -1981,8 +1985,9 @@ async function confirmPwModal() {
   try {
     const res = await gasPost({ action: 'verifyPassword', password: pw });
     if (res.success) {
+      const driverId = _pendingDriverId;
       closePwModal();
-      if (_pendingDriverId) { _doSelectDriver(_pendingDriverId); _pendingDriverId = null; }
+      if (driverId) { _doSelectDriver(driverId); }
     } else {
       document.getElementById('pwModalError').textContent = 'パスワードが違います';
       document.getElementById('pwModalInput').value = '';
