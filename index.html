@@ -778,17 +778,23 @@ const _store = {
 };
 
 // GAS API helpers
+function fetchWithTimeout(url, options, ms) {
+  const controller = new AbortController();
+  const timer = setTimeout(function(){ controller.abort(); }, ms);
+  return fetch(url, Object.assign({}, options, { signal: controller.signal }))
+    .finally(function(){ clearTimeout(timer); });
+}
 async function gasGet(params) {
   const url = GAS_URL + '?' + new URLSearchParams(params).toString();
-  const res = await fetch(url);
+  const res = await fetchWithTimeout(url, {}, 15000);
   return res.json();
 }
 async function gasPost(data) {
-  const res = await fetch(GAS_URL, {
+  const res = await fetchWithTimeout(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify(data)
-  });
+  }, 15000);
   const json = await res.json();
   if (json && json.error) throw new Error(json.error);
   return json;
@@ -813,7 +819,7 @@ async function loadDriversFromGAS() {
     }
   } catch(e) {
     drivers = [];
-    showToast('通信エラー：ドライバー読み込み失敗', true);
+    showToast('通信エラー：' + (e.message||e), true);
   } finally {
     showLoadingOverlay(false);
   }
@@ -2621,6 +2627,13 @@ function showLoadingOverlay(show, text, sub) {
     if (s) s.textContent = sub || 'スプレッドシートと通信中';
   }
   el.classList.toggle('show', show);
+  // 安全策：10秒後に強制非表示
+  if (show) {
+    if (window._loadingTimer) clearTimeout(window._loadingTimer);
+    window._loadingTimer = setTimeout(function(){ el.classList.remove('show'); }, 10000);
+  } else {
+    if (window._loadingTimer) { clearTimeout(window._loadingTimer); window._loadingTimer = null; }
+  }
 }
 
 function showToast(msg, isError=false) {
