@@ -251,8 +251,7 @@
   .rf-fuel-group input { flex:1; text-align:right; }
     padding: 8px; background: rgba(34,197,94,0.1); border-radius: 8px; }
   /* LOADING OVERLAY */
-  .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 400; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
-  .loading-overlay.show { opacity: 1; pointer-events: all; }
+  .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 400; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
   .loading-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 36px 48px; display: flex; flex-direction: column; align-items: center; gap: 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.6); }
   .loading-spinner { width: 52px; height: 52px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; }
   .loading-text { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: 0.03em; }
@@ -2625,13 +2624,12 @@ function showLoadingOverlay(show, text, sub) {
     const s = document.getElementById('loadingSub');
     if (t) t.innerHTML = (text || '読み込み中') + '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
     if (s) s.textContent = sub || 'スプレッドシートと通信中';
-  }
-  el.classList.toggle('show', show);
-  // 安全策：10秒後に強制非表示
-  if (show) {
+    el.style.display = 'flex';
+    // 安全策：10秒後に強制非表示
     if (window._loadingTimer) clearTimeout(window._loadingTimer);
-    window._loadingTimer = setTimeout(function(){ el.classList.remove('show'); }, 10000);
+    window._loadingTimer = setTimeout(function(){ el.style.display = 'none'; }, 10000);
   } else {
+    el.style.display = 'none';
     if (window._loadingTimer) { clearTimeout(window._loadingTimer); window._loadingTimer = null; }
   }
 }
