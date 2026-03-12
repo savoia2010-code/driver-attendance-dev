@@ -28,10 +28,9 @@ git push
 
 ### GAS（コード.js）を更新する場合
 ```bash
-clasp push
-# その後、GASエディタで既存デプロイを新バージョンで更新
-# （clasp deployは新デプロイを作るため使わない）
+clasp push して、既存デプロイ AKfycby_HoPWC4_hkMrRoi252jImzfJ_jSQCuZXjASb9-he3ArGUwM4PSOR-GMfrXjulJBvmsg を新バージョンで更新して
 ```
+※ `clasp deploy` は新しいデプロイURLが発行されてしまうため使わない
 
 ## 技術仕様
 
