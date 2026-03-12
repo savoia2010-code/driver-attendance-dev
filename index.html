@@ -653,6 +653,22 @@
   </div>
 </div>
 
+<!-- パスワードモーダル -->
+<div class="confirm-overlay" id="pwModal">
+  <div class="confirm-box">
+    <div class="confirm-msg">🔐 パスワードを入力してください</div>
+    <div class="confirm-sub" id="pwModalSub" style="color:var(--text3);margin-bottom:12px;">ドライバーを選択するには認証が必要です</div>
+    <input type="password" id="pwModalInput" class="rf-input" placeholder="パスワード"
+      style="width:100%;margin-bottom:12px;font-size:18px;letter-spacing:4px;text-align:center;"
+      onkeydown="if(event.key==='Enter')confirmPwModal()">
+    <div style="color:var(--danger);font-size:13px;min-height:18px;margin-bottom:10px;" id="pwModalError"></div>
+    <div class="confirm-btns">
+      <button class="confirm-btn-cancel" onclick="closePwModal()">キャンセル</button>
+      <button class="confirm-btn-ok" onclick="confirmPwModal()">OK</button>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRM MODAL -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -1940,10 +1956,46 @@ function renderDrivers() {
 }
 
 function selectDriver(id) {
+  // パスワードモーダルを表示してから実際の選択処理へ
+  _pendingDriverId = id;
+  document.getElementById('pwModalInput').value = '';
+  document.getElementById('pwModalError').textContent = '';
+  document.getElementById('pwModalSub').textContent = getDriverName(id) + ' を選択します';
+  document.getElementById('pwModal').classList.add('open');
+  setTimeout(function(){ document.getElementById('pwModalInput').focus(); }, 100);
+}
+
+function _doSelectDriver(id) {
   currentDriverId = id; setCurrentDriver(id);
-  appData[id] = {}; // clear cache so fresh load happens
+  appData[id] = {};
   loadTodayState(); updatePunchUI(); updateDriverHeaders(); renderDrivers();
   showToast('✓ ' + getDriverName(id) + ' に切り替えました');
+}
+
+let _pendingDriverId = null;
+
+async function confirmPwModal() {
+  const pw = document.getElementById('pwModalInput').value;
+  if (!pw) { document.getElementById('pwModalError').textContent = 'パスワードを入力してください'; return; }
+  document.getElementById('pwModalError').textContent = '確認中...';
+  try {
+    const res = await gasGet({ action: 'verifyPassword', password: pw });
+    if (res.success) {
+      closePwModal();
+      if (_pendingDriverId) { _doSelectDriver(_pendingDriverId); _pendingDriverId = null; }
+    } else {
+      document.getElementById('pwModalError').textContent = 'パスワードが違います';
+      document.getElementById('pwModalInput').value = '';
+      document.getElementById('pwModalInput').focus();
+    }
+  } catch(e) {
+    document.getElementById('pwModalError').textContent = '通信エラーが発生しました';
+  }
+}
+
+function closePwModal() {
+  document.getElementById('pwModal').classList.remove('open');
+  _pendingDriverId = null;
 }
 
 function updateDriverHeaders() {
