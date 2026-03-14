@@ -1468,13 +1468,19 @@ function alcBStartCheckerSelect() {
   if (row) row.style.display = 'block';
 }
 
-function alcBStartAddChecker() {
+async function alcBStartAddChecker() {
   const inp = document.getElementById('alcBStartCheckerNew');
   const name = inp ? inp.value.trim() : '';
   if (!name) return;
-  addCheckerToList(name);
+  const checkers = loadCheckers();
+  if (!checkers.includes(name)) {
+    try { await gasPost({ action: 'saveChecker', name: name }); } catch(e) {}
+    _checkerCache = [...checkers, name];
+    try { _store.setItem(CHECKERS_KEY, JSON.stringify(_checkerCache)); } catch(e) {}
+    _refreshAllCheckerSelects(null);
+  }
   const sel = document.getElementById('alcBStartChecker');
-  if (sel) { sel.appendChild(Object.assign(document.createElement('option'),{value:name,textContent:name})); sel.value = name; }
+  if (sel) { buildCheckerOptions(sel, name); sel.value = name; }
   alcBStartCheckerSelect();
   if (inp) inp.value = '';
 }
@@ -1582,13 +1588,19 @@ function alcAModalCheckerSelect() {
   }
 }
 
-function alcAModalAddChecker() {
+async function alcAModalAddChecker() {
   const inp = document.getElementById('alcAModalCheckerNew');
   const name = inp.value.trim();
   if (!name) return;
-  addCheckerToList(name);
+  const checkers = loadCheckers();
+  if (!checkers.includes(name)) {
+    try { await gasPost({ action: 'saveChecker', name: name }); } catch(e) {}
+    _checkerCache = [...checkers, name];
+    try { _store.setItem(CHECKERS_KEY, JSON.stringify(_checkerCache)); } catch(e) {}
+    _refreshAllCheckerSelects(null);
+  }
   const sel = document.getElementById('alcAModalChecker');
-  sel.appendChild(Object.assign(document.createElement('option'),{value:name,textContent:name}));
+  buildCheckerOptions(sel, name);
   sel.value = name;
   alcAModalCheckerSelect();
   inp.value = '';
@@ -2654,37 +2666,59 @@ function escHtml(s) {
 // ============================================================
 const CHECKERS_KEY = 'checker_list_v1';
 const DEFAULT_CHECKERS = ['梅澤'];
+let _checkerCache = null; // GASから取得した確認者リストのキャッシュ
 
-function loadCheckers() {
+async function loadCheckersFromGAS() {
   try {
-    const raw = _store.getItem(CHECKERS_KEY);
-    const saved = raw ? JSON.parse(raw) : null;
-    if (saved) return saved;
-    // 初回はデフォルトを保存して返す
-    saveCheckers(DEFAULT_CHECKERS);
-    return DEFAULT_CHECKERS.slice();
-  } catch(e) { return DEFAULT_CHECKERS.slice(); }
+    const res = await gasGet({ action: 'getCheckers' });
+    if (res.success && res.checkers) {
+      _checkerCache = res.checkers;
+      // localStorageにもキャッシュ
+      try { _store.setItem(CHECKERS_KEY, JSON.stringify(res.checkers)); } catch(e) {}
+    }
+  } catch(e) {
+    // GAS失敗時はlocalStorageから
+    try {
+      const raw = _store.getItem(CHECKERS_KEY);
+      _checkerCache = raw ? JSON.parse(raw) : DEFAULT_CHECKERS.slice();
+    } catch(e2) { _checkerCache = DEFAULT_CHECKERS.slice(); }
+  }
+  return _checkerCache || DEFAULT_CHECKERS.slice();
 }
 
-function saveCheckers(list) {
-  try { _store.setItem(CHECKERS_KEY, JSON.stringify(list)); } catch(e) {}
+function loadCheckers() {
+  // 同期版：キャッシュまたはlocalStorage
+  if (_checkerCache) return _checkerCache;
+  try {
+    const raw = _store.getItem(CHECKERS_KEY);
+    return raw ? JSON.parse(raw) : DEFAULT_CHECKERS.slice();
+  } catch(e) { return DEFAULT_CHECKERS.slice(); }
 }
 
 function buildCheckerOptions(selectEl, currentVal) {
   const checkers = loadCheckers();
-  // 現在の選択を保持しつつ再構築
   const prev = currentVal !== undefined ? currentVal : selectEl.value;
   selectEl.innerHTML = '<option value="">選択してください</option>';
   checkers.forEach(name => {
     const opt = document.createElement('option');
-    opt.value = name;
-    opt.textContent = name;
+    opt.value = name; opt.textContent = name;
     if (name === prev) opt.selected = true;
     selectEl.appendChild(opt);
   });
 }
 
-function addChecker(side) {
+function _refreshAllCheckerSelects(newName) {
+  const ids = ['rf-alcBChecker','rf-alcAChecker','alcAModalChecker','alcBStartChecker'];
+  ids.forEach(function(id) {
+    const sel = document.getElementById(id);
+    if (sel) {
+      buildCheckerOptions(sel, sel.value);
+      if (newName) sel.value = newName;
+    }
+  });
+}
+
+async function addChecker(side) {
   const inputId = 'rf-alc' + side + 'CheckerNew';
   const inputEl = document.getElementById(inputId);
   const name = inputEl ? inputEl.value.trim() : '';
@@ -2692,21 +2726,20 @@ function addChecker(side) {
 
   const checkers = loadCheckers();
   if (checkers.includes(name)) { showToast('すでに登録されています', true); return; }
-  checkers.push(name);
-  saveCheckers(checkers);
 
-  // 両方のセレクトを更新
-  const selB = document.getElementById('rf-alcBChecker');
-  const selA = document.getElementById('rf-alcAChecker');
-  if (selB) buildCheckerOptions(selB);
-  if (selA) buildCheckerOptions(selA);
+  // GASに保存
+  try {
+    await gasPost({ action: 'saveChecker', name: name });
+  } catch(e) { showToast('保存に失敗しました', true); return; }
 
-  // 追加した名前を自動選択
+  // キャッシュ更新
+  _checkerCache = [...checkers, name];
+  try { _store.setItem(CHECKERS_KEY, JSON.stringify(_checkerCache)); } catch(e) {}
+
+  _refreshAllCheckerSelects(null);
   const target = document.getElementById('rf-alc' + side + 'Checker');
-  if (target) { target.value = name; }
-  inputEl.value = '';
-
-  // 選択処理を実行
+  if (target) target.value = name;
+  if (inputEl) inputEl.value = '';
   onCheckerSelect(side);
   showToast('✓ 確認者「' + name + '」を登録しました');
 }
@@ -2795,7 +2828,8 @@ async function init() {
   setInterval(updateClock, 1000);
   document.getElementById('timeModal').addEventListener('click', function(e) { if (e.target.id==='timeModal') closeModal(); });
   document.getElementById('recEditOverlay').addEventListener('click', function(e) { if (e.target.id==='recEditOverlay') closeRecEdit(); });
-  // Load drivers from GAS
+  // Load drivers and checkers from GAS
+  await loadCheckersFromGAS();
   await loadDriversFromGAS();
   if (!currentDriverId && drivers.length > 0) currentDriverId = drivers[0].id;
   loadTodayState();
