@@ -611,65 +611,17 @@
       <div class="rf-num-group"><label>その他</label><input class="rf-input rf-num" type="text" inputmode="numeric" pattern="[0-9]*" id="rf-other" placeholder="0" oninput="reportFieldChange()"></div>
     </div>
 
-    <!-- 酒気帯び確認（運転前） -->
-    <div class="rf-section" id="rf-alcB-section">🔵 酒気帯び確認（運転前）</div>
-    <div class="rf-row">
-      <label class="rf-label">確認方法</label>
-      <div class="rf-toggle-group">
-        <button class="rf-chip active" id="rfAlcBMethod_検知器有" onclick="setRfChip('alcBMethod','検知器有')">有（検知器）</button>
-        <button class="rf-chip" id="rfAlcBMethod_検知器無し" onclick="setRfChip('alcBMethod','検知器無し')">無</button>
-      </div>
-    </div>
-    <div class="rf-row">
-      <label class="rf-label">対面外連絡</label>
-      <div class="rf-toggle-group">
-        <button class="rf-chip" id="rfAlcBRemote_" onclick="setRfChip('alcBRemote','')">対面</button>
-        <button class="rf-chip active" id="rfAlcBRemote_チャット" onclick="setRfChip('alcBRemote','チャット')">チャット</button>
-        <button class="rf-chip" id="rfAlcBRemote_電話" onclick="setRfChip('alcBRemote','電話')">電話</button>
-      </div>
-    </div>
-    <div class="rf-row">
-      <label class="rf-label">酒気有無</label>
-      <div class="rf-toggle-group">
-        <button class="rf-chip" id="rfAlcBResult_無" onclick="setRfChip('alcBResult','無')">無</button>
-        <button class="rf-chip" id="rfAlcBResult_有" onclick="setRfChip('alcBResult','有')">有</button>
-      </div>
-    </div>
-    <div class="rf-row">
-      <label class="rf-label">確認者</label>
-      <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
-        <div style="font-size:11px;color:var(--text3);">確認者を選択すると自動で時間が記録されます</div>
-        <select class="rf-input rf-select" id="rf-alcBChecker" onchange="onCheckerSelect('B')">
-          <option value="">選択してください</option>
-        </select>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <input class="rf-input" type="text" id="rf-alcBCheckerNew" placeholder="新しい確認者名を追加" style="flex:1;font-size:16px;padding:6px 10px;">
-          <button class="rf-add-btn" onclick="addChecker('B')">＋追加</button>
-        </div>
-      </div>
-    </div>
-    <div class="rf-row" id="rf-alcBDate-row" style="display:none;">
-      <label class="rf-label">確認日時</label>
-      <div class="rf-datetime-badge" id="rf-alcBDate-display">—</div>
-      <input type="hidden" id="rf-alcBDate">
-    </div>
+
 
 
     <!-- 出張・収支 -->
     <div class="rf-section">📋 出張報告書</div>
-    <div class="rf-row" style="align-items:center;">
-      <label class="rf-label">宿泊</label>
-      <label class="rf-toggle-switch">
-        <input type="checkbox" id="rf-lodging-check" onchange="onLodgingChange()">
-        <span class="rf-toggle-track">
-          <span class="rf-toggle-thumb"></span>
-        </span>
-        <span class="rf-toggle-label" id="rf-lodging-label">なし</span>
-      </label>
-    </div>
     <div class="rf-row">
       <label class="rf-label">手当（円）</label>
-      <input class="rf-input rf-num" type="text" inputmode="numeric" pattern="[0-9]*" id="rf-allowance" placeholder="0" min="0" oninput="reportFieldChange()">
+      <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+        <input class="rf-input rf-num" type="text" inputmode="numeric" pattern="[0-9]*" id="rf-allowance" placeholder="0" min="0" oninput="reportFieldChange()">
+        <div style="font-size:11px;color:var(--text3);">※宿泊手当は別途自動計算されますので含まない手当を入力してください</div>
+      </div>
     </div>
     <div style="margin-bottom:10px;margin-top:6px;">
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">報告事項（訪問先ごと）</div>
