@@ -312,22 +312,22 @@
   <div class="modal-sheet" style="width:100%;padding:24px 20px calc(20px + env(safe-area-inset-bottom));">
     <div class="modal-title">🔵 始業後 酒気帯び確認（運転前）</div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">宿泊</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">宿泊</div>
       <label class="rf-toggle-switch">
         <input type="checkbox" id="alcBStartLodging" onchange="alcBStartLodgingChange()">
         <span class="rf-toggle-track"><span class="rf-toggle-thumb"></span></span>
-        <span class="rf-toggle-label" id="alcBStartLodgingLabel">なし</span>
+        <span class="rf-toggle-label" id="alcBStartLodgingLabel">宿泊なし</span>
       </label>
     </div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">確認方法</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">確認方法</div>
       <div style="display:flex;gap:8px;">
         <button class="rf-chip active" id="alcBStartMethod_検知器有" onclick="alcBStartSet('method','検知器有')">有（検知器）</button>
         <button class="rf-chip" id="alcBStartMethod_検知器無し" onclick="alcBStartSet('method','検知器無し')">無（目視等）</button>
       </div>
     </div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">対面外連絡</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">対面外連絡</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="rf-chip" id="alcBStartRemote_" onclick="alcBStartSet('remote','')">対面</button>
         <button class="rf-chip active" id="alcBStartRemote_チャット" onclick="alcBStartSet('remote','チャット')">チャット</button>
@@ -335,14 +335,14 @@
       </div>
     </div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">酒気有無</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">酒気有無</div>
       <div style="display:flex;gap:8px;">
         <button class="rf-chip active" id="alcBStartResult_無" onclick="alcBStartSet('result','無')">無</button>
         <button class="rf-chip" id="alcBStartResult_有" onclick="alcBStartSet('result','有')">有</button>
       </div>
     </div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">確認者</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">確認者</div>
       <select class="rf-input rf-select" id="alcBStartChecker" onchange="alcBStartCheckerSelect()" style="width:100%;margin-bottom:6px;">
         <option value="">選択してください</option>
       </select>
@@ -352,7 +352,7 @@
       </div>
     </div>
     <div id="alcBStartDateRow" style="display:none;background:rgba(59,130,246,0.1);border-radius:8px;padding:8px 12px;margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);">確認日時</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;">確認日時</div>
       <div style="font-size:15px;font-weight:700;" id="alcBStartDateDisplay">—</div>
     </div>
     <div class="modal-actions">
@@ -366,14 +366,14 @@
   <div class="modal-sheet" style="width:100%;padding:24px 20px calc(20px + env(safe-area-inset-bottom));">
     <div class="modal-title">🔴 到着後 酒気帯び確認</div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">確認方法</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">確認方法</div>
       <div style="display:flex;gap:8px;">
         <button class="rf-chip active" id="alcAModalMethod_検知器有" onclick="alcAModalSet('method','検知器有')">有（検知器）</button>
         <button class="rf-chip" id="alcAModalMethod_検知器無し" onclick="alcAModalSet('method','検知器無し')">無（目視等）</button>
       </div>
     </div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">対面外連絡</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">対面外連絡</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="rf-chip" id="alcAModalRemote_" onclick="alcAModalSet('remote','')">対面</button>
         <button class="rf-chip active" id="alcAModalRemote_チャット" onclick="alcAModalSet('remote','チャット')">チャット</button>
@@ -381,14 +381,14 @@
       </div>
     </div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">酒気有無</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">酒気有無</div>
       <div style="display:flex;gap:8px;">
         <button class="rf-chip active" id="alcAModalResult_無" onclick="alcAModalSet('result','無')">無</button>
         <button class="rf-chip" id="alcAModalResult_有" onclick="alcAModalSet('result','有')">有</button>
       </div>
     </div>
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">確認者</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;margin-bottom:6px;">確認者</div>
       <select class="rf-input rf-select" id="alcAModalChecker" onchange="alcAModalCheckerSelect()" style="width:100%;margin-bottom:6px;">
         <option value="">選択してください</option>
       </select>
@@ -398,7 +398,7 @@
       </div>
     </div>
     <div id="alcAModalDateRow" style="display:none;background:rgba(34,197,94,0.1);border-radius:8px;padding:8px 12px;margin-bottom:14px;">
-      <div style="font-size:11px;color:var(--text3);">確認日時</div>
+      <div style="font-size:13px;color:var(--text);font-weight:bold;">確認日時</div>
       <div style="font-size:15px;font-weight:700;" id="alcAModalDateDisplay">—</div>
     </div>
     <div class="modal-actions">
@@ -1422,7 +1422,7 @@ function openAlcBStartModal() {
   const lodgingCb = document.getElementById('alcBStartLodging');
   const lodgingLabel = document.getElementById('alcBStartLodgingLabel');
   if (lodgingCb) lodgingCb.checked = !!todayState.lodging;
-  if (lodgingLabel) lodgingLabel.textContent = todayState.lodging ? 'あり（¥5,000）' : 'なし';
+  if (lodgingLabel) lodgingLabel.textContent = todayState.lodging ? '宿泊あり¥5,000' : '宿泊なし';
   // 確認者リスト
   const sel = document.getElementById('alcBStartChecker');
   if (sel) buildCheckerOptions(sel, '');
@@ -1449,7 +1449,7 @@ function alcBStartLodgingChange() {
   const cb = document.getElementById('alcBStartLodging');
   const label = document.getElementById('alcBStartLodgingLabel');
   todayState.lodging = cb ? cb.checked : false;
-  if (label) label.textContent = todayState.lodging ? 'あり（¥5,000）' : 'なし';
+  if (label) label.textContent = todayState.lodging ? '宿泊あり¥5,000' : '宿泊なし';
   saveTodayState();
 }
 
@@ -2402,7 +2402,7 @@ function renderReportForm() {
   const lodgingLabel = document.getElementById('rf-lodging-label');
   if (lodgingCheck) {
     lodgingCheck.checked = !!todayState.lodging;
-    if (lodgingLabel) lodgingLabel.textContent = todayState.lodging ? 'あり（¥5,000）' : 'なし';
+    if (lodgingLabel) lodgingLabel.textContent = todayState.lodging ? '宿泊あり¥5,000' : '宿泊なし';
   }
 
   // 確認日時バッジを復元
