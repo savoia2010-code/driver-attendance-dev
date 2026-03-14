@@ -79,8 +79,8 @@
   .punch-btn { border: none; border-radius: var(--radius); padding: 20px 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: 'Noto Sans JP', sans-serif; transition: transform 0.1s, opacity 0.2s; user-select: none; -webkit-user-select: none; }
   .punch-btn:active   { transform: scale(0.96); }
   .punch-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-  .punch-btn .btn-icon  { font-size: 28px; }
-  .punch-btn .btn-label { font-size: 16px; font-weight: 700; color: #fff; }
+  .punch-btn .btn-icon  { font-size: 56px; }
+  .punch-btn .btn-label { font-size: 32px; font-weight: 700; color: #fff; }
   .punch-btn .btn-sub   { font-size: 10px; color: rgba(255,255,255,0.6); }
   .punch-btn.start       { background: linear-gradient(135deg, #16a34a, #22c55e); }
   .punch-btn.end         { background: linear-gradient(135deg, #b91c1c, #ef4444); }
@@ -93,7 +93,7 @@
   .modal-sheet { background: var(--surface); border-radius: 20px 20px 0 0; padding: 24px 20px calc(24px + env(safe-area-inset-bottom)); width: 100%; transform: translateY(30px); transition: transform 0.25s; }
   .modal-overlay.open .modal-sheet { transform: translateY(0); }
   .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; text-align: center; }
-  .modal-time-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 32px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; padding: 12px 16px; text-align: center; }
+  .modal-time-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 64px; font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; padding: 12px 16px; text-align: center; }
   .modal-note { margin-top: 12px; }
   .modal-note input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 16px; padding: 10px 14px; font-family: 'Noto Sans JP', sans-serif; }
   .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
@@ -197,30 +197,30 @@
   /* ── REPORT FORM ── */
   .report-form { padding: 0 16px 20px; overflow-y: auto; overflow-x: hidden; box-sizing: border-box; width: 100%; }
   .rf-section { font-family: 'Bebas Neue', 'Arial Narrow', Arial, sans-serif;
-    font-size: 16px; letter-spacing: 1px; color: var(--accent);
+    font-size: 32px; letter-spacing: 1px; color: var(--accent);
     padding: 16px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
   .rf-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; min-width: 0; }
-  .rf-label { font-size: 14px; color: var(--text2); width: 76px; flex-shrink: 0;
+  .rf-label { font-size: 28px; color: var(--text2); width: 120px; flex-shrink: 0;
     padding-top: 10px; }
   .rf-input { flex: 1; min-width: 0; background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); color: var(--text); font-size: 16px;
-    padding: 10px 12px; font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+    border-radius: var(--radius-sm); color: var(--text); font-size: 32px;
+    padding: 14px 12px; font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
     box-sizing: border-box; width: 100%; }
   .rf-input:focus { outline: none; border-color: var(--accent); }
   .rf-num { text-align: center; }
   .rf-textarea { min-height: 70px; resize: vertical; }
   .rf-grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .rf-num-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-  .rf-num-group label { font-size: 14px; font-weight: 600; color: var(--text2); text-align: center; }
-  .rf-num-group input { width: 100%; text-align: center; box-sizing: border-box; padding: 10px 4px; font-size: 18px; font-weight: 700; }
+  .rf-num-group label { font-size: 28px; font-weight: 600; color: var(--text2); text-align: center; }
+  .rf-num-group input { width: 100%; text-align: center; box-sizing: border-box; padding: 14px 4px; font-size: 36px; font-weight: 700; }
   .rf-toggle-group { display: flex; gap: 6px; flex-wrap: wrap; padding-top: 4px; max-width: 100%; }
   .rf-chip { background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 20px; color: var(--text2); font-size: 12px; padding: 5px 14px;
+    border-radius: 20px; color: var(--text2); font-size: 24px; padding: 10px 20px;
     cursor: pointer; font-family: 'Noto Sans JP', sans-serif; transition: all 0.15s; }
   .rf-chip.active { background: var(--accent); border-color: var(--accent);
     color: #000; font-weight: 700; }
-  .rf-select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
-  .rf-add-btn { background: var(--accent); border: none; color: #000; border-radius: var(--radius-sm); padding: 6px 12px; font-size: 14px; cursor: pointer; white-space: nowrap; font-family: 'Noto Sans JP', sans-serif; }
+  .rf-select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 48px; cursor: pointer; }
+  .rf-add-btn { background: var(--accent); border: none; color: #000; border-radius: var(--radius-sm); padding: 12px 20px; font-size: 28px; cursor: pointer; white-space: nowrap; font-family: 'Noto Sans JP', sans-serif; }
   .rf-add-btn:active { opacity: 0.8; }
 
   .rf-toggle-switch { display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none; }
@@ -231,12 +231,12 @@
     background:#888; border-radius:50%; transition:transform 0.2s, background 0.2s; }
   .rf-toggle-switch input:checked ~ .rf-toggle-track { background:var(--accent); border-color:var(--accent); }
   .rf-toggle-switch input:checked ~ .rf-toggle-track .rf-toggle-thumb { transform:translateX(20px); background:#fff; }
-  .rf-toggle-label { font-size:14px; color:var(--text); min-width:80px; }
-  .rf-datetime-badge { font-size:13px; color:var(--accent); font-weight:600;
+  .rf-toggle-label { font-size:28px; color:var(--text); min-width:120px; }
+  .rf-datetime-badge { font-size:26px; color:var(--accent); font-weight:600;
     background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm);
     padding:8px 12px; flex:1; }
   .rf-count-badge { background: var(--accent); color: #fff; font-weight: 700;
-    font-size: 15px; padding: 6px 16px; border-radius: 20px; min-width: 56px; text-align: center; }
+    font-size: 30px; padding: 6px 16px; border-radius: 20px; min-width: 56px; text-align: center; }
   .rf-multi-card { background: var(--surface2); border: 1px solid var(--border);
     border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 8px;
     display: flex; flex-direction: column; gap: 8px; position: relative; min-width: 0; box-sizing: border-box; }
@@ -360,7 +360,7 @@
     <input type="time" class="modal-time-input" id="modalTimeInput">
     <div id="modalMileageWrap" style="margin-top:12px;display:none;">
       <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">🚗 オドメーター（km）<span style="color:#ef4444;margin-left:4px;font-weight:700;">必須</span></div>
-      <input type="text" inputmode="numeric" pattern="[0-9]*" id="modalMileageInput" placeholder="例：12345" style="width:100%;background:var(--surface2);border:2px solid var(--accent);border-radius:var(--radius-sm);color:var(--text);font-size:22px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px;padding:10px 14px;text-align:center;">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" id="modalMileageInput" placeholder="例：12345" style="width:100%;background:var(--surface2);border:2px solid var(--accent);border-radius:var(--radius-sm);color:var(--text);font-size:44px;font-family:'Bebas Neue',sans-serif;letter-spacing:1px;padding:10px 14px;text-align:center;">
     </div>
     <div class="modal-note" id="modalNoteWrap">
       <input type="text" id="modalNoteInput" placeholder="現在地（任意）例：△△SA" autocomplete="off">
@@ -1276,7 +1276,7 @@ function confirmPunch() {
   if (!time) { showToast('時刻を入力してください', true); return; }
 
   // 始業・休憩開始・到着は走行距離必須
-  const needsMileage = ['start','breakStart','end'].includes(pendingPunchType);
+  const needsMileage = ['start','end'].includes(pendingPunchType);
   if (needsMileage && !mileage) {
     showToast('オドメーターを入力してください', true);
     document.getElementById('modalMileageInput').focus();
